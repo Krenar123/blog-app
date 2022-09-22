@@ -4,21 +4,59 @@ module Api
   module V1
     class PostsController < BaseController
       def index
-        @posts = Post.all
+        records = Post.all
 
-        if @posts.present?
-          render json: @posts
+        if records.present?
+          render json: records
         else
           render json: { error: 'No posts found' }, status: :not_found
         end
       end
 
       def show
-        @post = Post.find(params[:id])
+        record = Post.find(params[:id])
 
-        render json: @post
+        render json: record
       rescue StandardError
         render json: { error: 'No post found' }, status: :not_found
+      end
+
+      def create
+        record = Post.new(safe_params)
+
+        if record.save
+          render json: record, status: :created
+        else
+          render json: { errors: record.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      def update
+        record = Post.find(params[:id])
+
+        if record.update(safe_params)
+          render json: record
+        else
+          render json: { errors: record.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      def destroy
+        record = Post.find(params[:id])
+
+        if record.destroy
+          render json: record
+        else
+          render json: { errors: record.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      private
+
+      def safe_params
+        params.permit(
+          :content
+        )
       end
     end
   end
