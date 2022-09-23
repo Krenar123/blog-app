@@ -3,6 +3,7 @@
 class Post < ApplicationRecord
   ################################ ASSOCIATIONS ################################
   has_many :comments, as: :commentable
+  belongs_to :user
 
   ################################## SETTINGS ##################################
 

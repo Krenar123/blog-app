@@ -81,8 +81,15 @@ GEM
     debug (1.6.2)
       irb (>= 1.3.6)
       reline (>= 0.3.1)
+    diff-lcs (1.5.0)
     digest (3.1.0)
     erubi (1.11.0)
+    factory_girl (4.9.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.9.0)
+      factory_girl (~> 4.9.0)
+      railties (>= 3.0.0)
+    ffaker (2.21.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.12.0)
@@ -155,6 +162,25 @@ GEM
     rake (13.0.6)
     reline (0.3.1)
       io-console (~> 0.5)
+    rspec-core (3.11.0)
+      rspec-support (~> 3.11.0)
+    rspec-expectations (3.11.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.11.0)
+    rspec-mocks (3.11.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.11.0)
+    rspec-rails (5.1.2)
+      actionpack (>= 5.2)
+      activesupport (>= 5.2)
+      railties (>= 5.2)
+      rspec-core (~> 3.10)
+      rspec-expectations (~> 3.10)
+      rspec-mocks (~> 3.10)
+      rspec-support (~> 3.10)
+    rspec-support (3.11.1)
+    shoulda-matchers (5.2.0)
+      activesupport (>= 5.2.0)
     sqlite3 (1.5.0-x64-mingw32)
     strscan (3.0.4)
     thor (1.2.1)
@@ -175,9 +201,13 @@ DEPENDENCIES
   active_model_serializers (~> 0.10)
   bootsnap
   debug
+  factory_girl_rails
+  ffaker (~> 2.12)
   puma (~> 5.0)
   rack-cors
   rails (~> 7.0.1)
+  rspec-rails
+  shoulda-matchers
   sqlite3 (~> 1.4)
   tzinfo-data
 

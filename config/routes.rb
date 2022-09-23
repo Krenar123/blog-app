@@ -8,8 +8,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :posts
-      resources :comments
+      resources :posts, only: %i[index show create update delete]
+      resources :comments, only: %i[index show create update delete]
     end
   end
 end
