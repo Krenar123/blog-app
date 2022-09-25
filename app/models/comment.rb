@@ -4,8 +4,7 @@ class Comment < ApplicationRecord
   ################################ ASSOCIATIONS ################################
   belongs_to :user
   belongs_to :commentable, polymorphic: true, optional: true
-  has_many :comment_replies, class_name: 'Comment', foreign_key: 'parent_id', dependent: :destroy
-  belongs_to :parent, class_name: 'Comment', optional: true
+  has_many :comment_replies, as: :commentable, dependent: :destroy
 
   ################################## SETTINGS ##################################
 
@@ -16,4 +15,9 @@ class Comment < ApplicationRecord
   ################################# VALIDATIONS ################################
 
   ################################## CALLBACKS #################################
+
+  ################################## METHODS ##################################
+  def comment_replies
+    Comment.where(commentable_id: id, commentable_type: 'Comment')
+  end
 end

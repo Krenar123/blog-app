@@ -18,10 +18,8 @@ ActiveRecord::Schema[7.0].define(version: 20_220_922_202_012) do
     t.integer 'commentable_id'
     t.string 'commentable_type'
     t.integer 'user_id', null: false
-    t.integer 'parent_id'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.index ['parent_id'], name: 'index_comments_on_parent_id'
     t.index ['user_id'], name: 'index_comments_on_user_id'
   end
 
@@ -39,7 +37,6 @@ ActiveRecord::Schema[7.0].define(version: 20_220_922_202_012) do
     t.datetime 'updated_at', null: false
   end
 
-  add_foreign_key 'comments', 'comments', column: 'parent_id'
   add_foreign_key 'comments', 'users'
   add_foreign_key 'posts', 'users'
 end
