@@ -3,6 +3,8 @@
 module Api
   module V1
     class PostsController < BaseController
+      before_action :get_post, only: [:show, :update, :destroy]
+
       def index
         records = Post.all
 
@@ -14,14 +16,11 @@ module Api
       end
 
       def show
-        record = Post.find(params[:id])
-
-        render json: record
-      rescue StandardError
-        render json: { error: 'No post found' }, status: :not_found
+        render json: @record
       end
 
       def create
+        puts safe_params
         record = Post.new(safe_params)
 
         if record.save
@@ -32,29 +31,28 @@ module Api
       end
 
       def update
-        record = Post.find(params[:id])
+        @record.update(safe_params)
 
-        if record.update(safe_params)
-          render json: record
-        else
-          render json: { errors: record.errors.full_messages }, status: :unprocessable_entity
-        end
+        render json: @record
       end
 
       def destroy
-        record = Post.find(params[:id])
-
-        if record.destroy
-          render json: record
-        else
-          render json: { errors: record.errors.full_messages }, status: :unprocessable_entity
-        end
+        @record.destroy
+        
+        head(:no_content)
       end
 
       private
 
+      def get_post
+        @record = Post.find(params[:id])
+      rescue StandardError
+        render json: { error: 'No post found' }, status: :not_found
+      end
+
       def safe_params
         params.permit(
+          :user_id,
           :content
         )
       end
