@@ -4,7 +4,7 @@ class Comment < ApplicationRecord
   ################################ ASSOCIATIONS ################################
   belongs_to :user
   belongs_to :commentable, polymorphic: true, optional: true
-  has_many :comment_replies, as: :commentable, dependent: :destroy
+  has_many :comment_replies, as: :commentable
 
   ################################## SETTINGS ##################################
 

@@ -3,8 +3,10 @@
 module Api
   module V1
     class CommentsController < BaseController
+      before_action :get_comment, only: [:show, :update, :destroy]
+
       def index
-        records = Post.all
+        records = Comment.all
 
         if records.present?
           render json: records
@@ -14,14 +16,11 @@ module Api
       end
 
       def show
-        record = Comment.find(params[:id])
-
-        render json: record
-      rescue StandardError
-        render json: { error: 'No comment found' }, status: :not_found
+        render json: @record
       end
 
       def create
+        puts safe_params
         record = Comment.new(safe_params)
 
         if record.save
@@ -32,30 +31,31 @@ module Api
       end
 
       def update
-        record = Comment.find(params[:id])
+        @record.update(safe_params)
 
-        if record.update(safe_params)
-          render json: record
-        else
-          render json: { errors: record.errors.full_messages }, status: :unprocessable_entity
-        end
+        render json: @record
       end
 
       def destroy
-        record = Comment.find(params[:id])
-
-        if record.destroy
-          render json: record
-        else
-          render json: { errors: record.errors.full_messages }, status: :unprocessable_entity
-        end
+        @record.destroy
+        
+        head(:no_content)
       end
 
       private
 
+      def get_comment
+        @record = Comment.find(params[:id])
+      rescue StandardError
+        render json: { error: 'No comment found' }, status: :not_found
+      end
+
       def safe_params
         params.permit(
-          :content
+          :user_id,
+          :content,
+          :commentable_id,
+          :commentable_type
         )
       end
     end
